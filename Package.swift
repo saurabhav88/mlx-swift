@@ -78,6 +78,14 @@ let noCudaCmlxExcludes = [
     "mlx/mlx/backend/cuda/unary",
 ]
 
+// The CUDA code generator is a build-tool plugin; on Apple platforms it returns no commands, but
+// Xcode still asks for the plugin to be trusted before any build. Attach it only where CUDA exists.
+#if os(Linux)
+    let cmlxPlugins: [Target.PluginUsage] = [.plugin(name: "CudaBuild")]
+#else
+    let cmlxPlugins: [Target.PluginUsage] = []
+#endif
+
 #if os(Linux)
     let platformExcludes: [String]
     let cxxSettings: [CXXSetting]
@@ -289,9 +297,7 @@ let cmlx = Target.target(
         .define("MLX_VERSION", to: "\"0.31.1\""),
     ],
     linkerSettings: linkerSettings,
-    plugins: [
-        .plugin(name: "CudaBuild")
-    ],
+    plugins: cmlxPlugins,
 )
 
 let package = Package(
