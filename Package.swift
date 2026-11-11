@@ -234,6 +234,9 @@ let noCudaCmlxExcludes = [
             "mlx/mlx/backend/cpu/compiled.cpp",
             "mlx/mlx/backend/cpu/jit_compiler.cpp",
             "mlx/mlx/distributed/jaccl/no_jaccl.cpp",
+            // Envious Labs fork: built through mlx-conditional/jit_kernels_conditional.cpp,
+            // which repairs the head-dim-split attention kernel (ml-explore/mlx issue 4832).
+            "mlx/mlx/backend/metal/jit_kernels.cpp",
 
             // opt-out of these backends (using metal)
             "mlx/mlx/backend/no_gpu",
